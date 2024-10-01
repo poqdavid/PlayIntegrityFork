@@ -1,16 +1,11 @@
 #!/system/bin/sh
 
-if [ -n "$TERMUX_VERSION" ] || echo "$PREFIX" | grep -q "com.termux"; then
-  if [ "$(whoami 2>/dev/null)" != "root" ]; then
-    echo "autopif: need root permissions";
+if [ "$USER" != "root" ] && [ "$(whoami 2>/dev/null)" != "root" ]; then
+  echo "autopif: need root permissions";
+  if [ -n "$TERMUX_VERSION" ] || echo "$PREFIX" | grep -q "com.termux"; then
     echo "autopif: please run tsu command (pkg install tsu)";
-    exit 1;
   fi;
-else
-  if [ "$USER" != "root" ] || [ "$(whoami 2>/dev/null)" != "root" ]; then
-    echo "autopif: need root permissions";
-    exit 1;
-  fi;
+  exit 1;
 fi;
 
 case "$1" in
